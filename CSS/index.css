@@ -1,0 +1,20 @@
+body{
+    background-color: #6b9eef;
+}
+.header{
+    text-align: center;
+}
+.username1{
+    
+}
+.searchBtn{
+    background-color: #041735;
+    width: 110px;
+}
+.searchBtn:hover{
+    background-color: #0b2f68;
+}
+
+.searchBtn:focus {     
+    background-color:#041735;    
+}
