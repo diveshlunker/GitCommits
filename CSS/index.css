@@ -18,3 +18,14 @@ body{
 .searchBtn:focus {     
     background-color:#041735;    
 }
+#listofrepo{
+    text-align: center;
+}
+a{
+    text-decoration: none;
+    color: black;
+}
+a:hover{
+    text-decoration: none;
+    color:black;
+}
