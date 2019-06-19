@@ -30,7 +30,8 @@ function userrepo(user){
                 
                 stringg += a1;
                 stringg += "<h5 class='card-title' style='text-align:center;'>"+data[i].name+"</h5>"
-                stringg += "<p class='card-text'>"+data[i].description+"</p>"
+                stringg += "<p class='card-text'>"+data[i].description+"</p><br>"
+                stringg+="<div class='row'><div class='col-lg-1'><img class='starimg' src='IMG/star.png'></div><div class='col-lg-1'>"+data[i].stargazers_count+"</div><div class='col-lg-1'><img class='forkimg' src='IMG/fork.png'></div><div class='col-lg-1'>"+data[i].forks_count+"</div></div>"
                 stringg+="</div></div></a></div>"
                 
             }
@@ -41,7 +42,8 @@ function userrepo(user){
                 
                 stringg += a2;
                 stringg += "<h5 class='card-title' style='text-align:center;'>"+data[i].name+"</h5>"
-                stringg += "<p class='card-text'>"+data[i].description+"</p>"
+                stringg += "<p class='card-text'>"+data[i].description+"</p><br>"
+                stringg+="<div class='row'><div class='col-lg-1'><img class='starimg' src='IMG/star.png'></div><div class='col-lg-1'>"+data[i].stargazers_count+"</div><div class='col-lg-1'><img class='forkimg' src='IMG/fork.png'></div><div class='col-lg-1'>"+data[i].forks_count+"</div></div>"
                 stringg+="</div></div></a></div></div><br>"
                 
                 
