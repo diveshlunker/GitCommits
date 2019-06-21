@@ -2,9 +2,9 @@ function userrepo(user){
     $.getJSON("https://api.github.com/users/"+user+"/repos")
     .done(function(data){
         
-        var a1 =  "<br><div class='row'><div class='col-lg-6'><a href='home.html'><div class='card' style='width: 500px; height: 200px;'><div class='card-body'>"
+        var a1 =  "<br><div class='row'><div class='col-lg-6'><div class='card' style='width: 500px; height: 200px;'><div class='card-body'>"
         
-        var a2 = "<div class='col-lg-6'><a href='home.html'><div class='card' style='width: 500px; height: 200px;'><div class='card-body'>"
+        var a2 = "<div class='col-lg-6'><div class='card' style='width: 500px; height: 200px;'><div class='card-body'>"
 //        var container;
 //        container = document.getElementById("containerr");
         var i;
@@ -14,11 +14,11 @@ function userrepo(user){
             
             listofrep = document.getElementById("listofrepo")
             
-            console.log(data[i].name)
-            console.log(data[i].stargazers_count)
-            console.log(data[i].language)
-            console.log(data[i].forks_count)
-            console.log(data[i].description)
+//            console.log(data[i].name)
+//            console.log(data[i].stargazers_count)
+//            console.log(data[i].language)
+//            console.log(data[i].forks_count)
+//            console.log(data[i].description)
             
             listofrep.innerHTML = "Repositories are been listed below. Click on them to check its fruitful commits."
             
@@ -29,10 +29,11 @@ function userrepo(user){
                 }
                 
                 stringg += a1;
+                stringg+="<div id='"+i+"'>"
                 stringg += "<h5 class='card-title' style='text-align:center;'>"+data[i].name+"</h5>"
                 stringg += "<p class='card-text'>"+data[i].description+"</p><br>"
-                stringg+="<div class='row'><div class='col-lg-1'><img class='starimg' src='IMG/star.png'></div><div class='col-lg-1'>"+data[i].stargazers_count+"</div><div class='col-lg-1'><img class='forkimg' src='IMG/fork.png'></div><div class='col-lg-1'>"+data[i].forks_count+"</div></div>"
-                stringg+="</div></div></a></div>"
+                stringg+="<div class='row'><div class='col-lg-1'><img class='starimg' src='IMG/star.png'></div><div class='col-lg-1'>"+data[i].stargazers_count+"</div><div class='col-lg-1'><img class='forkimg' src='IMG/fork.png'></div><div class='col-lg-1'>"+data[i].forks_count+"</div><div class='col-lg-3'><button type='button' class='searchBtn btn btn-info' onclick='clicked("+i+")'>Search</button></div></div>"
+                stringg+="</div></div></div></div>"
                 
             }
             else{
@@ -41,10 +42,11 @@ function userrepo(user){
                 }
                 
                 stringg += a2;
-                stringg += "<h5 class='card-title' style='text-align:center;'>"+data[i].name+"</h5>"
+                stringg+="<div id='"+i+"'>"
+                stringg += "<h5 class='card-title'  style='text-align:center;'>"+data[i].name+"</h5>"
                 stringg += "<p class='card-text'>"+data[i].description+"</p><br>"
-                stringg+="<div class='row'><div class='col-lg-1'><img class='starimg' src='IMG/star.png'></div><div class='col-lg-1'>"+data[i].stargazers_count+"</div><div class='col-lg-1'><img class='forkimg' src='IMG/fork.png'></div><div class='col-lg-1'>"+data[i].forks_count+"</div></div>"
-                stringg+="</div></div></a></div></div><br>"
+                stringg+="<div class='row'><div class='col-lg-1'><img class='starimg' src='IMG/star.png'></div><div class='col-lg-1'>"+data[i].stargazers_count+"</div><div class='col-lg-1'><img class='forkimg' src='IMG/fork.png'></div><div class='col-lg-1'>"+data[i].forks_count+"</div><div class='col-lg-3'><button type='button' class='searchBtn btn btn-info' onclick='clicked("+i+")'>Search</button></div></div>"
+                stringg+="</div></div></div></div></div><br>"
                 
                 
             }
@@ -55,10 +57,11 @@ function userrepo(user){
         var cont = "<div class=container>"
         var end = "</div>"
         var g = document.createElement('div');
-        g.id = i;
+        g.id = i+100;
         var a0 = cont+stringg+end;
         document.body.appendChild(g);
         document.getElementById(g.id).innerHTML = a0;
+        
         
     });
 }
@@ -66,3 +69,101 @@ function getUser(){
     var user = document.getElementById("usernam").value;
     userrepo(user);
 }
+
+function clicked(id){
+    getdiv = document.getElementById(id);
+
+    var user = document.getElementById("usernam").value;
+    
+    $.getJSON("https://api.github.com/users/"+user+"/repos")
+    .done(function(data){
+        var i;
+        var name;
+        for(i=0;i<data.length;i++){
+            if(i==id){
+                name = data[i].name;
+            }
+        }
+        
+        $.getJSON("https://api.github.com/repos/"+user+"/"+name+"/branches")
+        .done(function(data1){
+            var j;
+            var c=0;
+            var c2=0;
+            var l=["badcommits"];
+            var l2 = ["goodcommits"];
+            for(j=0;j<data1.length;j++){
+                if(data1[j].name=="master"){
+                    console.log(data1[j].commit.url);
+                    $.getJSON(data1[j].commit.url)
+                    .done(function(data2){
+                        
+                        console.log(data2.parents[0].url);
+                        if(data2.stats.total<=10){
+                            c+=1
+                            l.push(data2.commit.url);
+                        }
+                        else{
+                            l2.push(data2.commit.url);
+                            c2+=1
+                        }
+                        getcommits(data2,c,c2,l,l2);
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                    });
+                }
+            }
+            
+        });
+    
+    });
+}
+
+
+function getcommits(data2,c,c2,l,l2){
+    if(data2.parents.length!=0){
+            $.getJSON(data2.parents[0].url)
+            .done(function(data2){
+                if(data2.stats.total>10){
+                    c2+=1
+                    l2.push(data2.commit.url);
+                }
+                else{
+                    c+=1
+                    l.push(data2.commit.url);
+                }
+                
+                console.log(l);
+                console.log(l2);
+//                console.log(data2.parents[0].url);
+                getcommits(data2,c,c2,l,l2);
+        });
+    }
+    else{
+        console.log("completed bro");
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
